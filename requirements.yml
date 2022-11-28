@@ -1,0 +1,11 @@
+# Requirements should be declared in roles and this file should remain empty
+# Declare dependencies here only if you can't do it in any role
+# Format for common role (common.xxx):
+# - name: 'common,.xxx'
+#   version: 'vM.m.p' # (can be a tag or a branch)
+#
+# Format for personnal roles:
+# - name: xxx
+#   version: 'vM.m.p' (#can be a tag or a branch)
+#   scm: git
+#   src: git@github.com:yourorganisation/yourproject.git

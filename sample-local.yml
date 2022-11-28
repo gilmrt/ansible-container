@@ -1,0 +1,24 @@
+---
+# Basic playbook to recover Docker from Duplicati
+
+- hosts: localhost
+  connection: local
+  become: true
+  vars:
+    - timezone: Europe/Paris
+    - ubuntu__user_name: <USER>
+    - ubuntu__user_group: <USER_GROUP>
+    - ubuntu__user_uid: <UID>
+    - ubuntu__user_gid: <GID>
+    - ubuntu__user_home: no
+    - ubuntu__user_shell: /usr/sbin/nologin
+    - docker__path: /docker
+    - portainer__network: <NETWORK_NAME>
+    - duplicati__path: ssh://<LOGIN>:<PASSWORD>@<IP_ADDRESS>/duplicati/docker/
+    - duplicati__passphrase: <PASSPHRASE>
+    - duplicati__report: true
+  roles:
+    - ubuntu
+    - docker
+    - portainer
+    - duplicati

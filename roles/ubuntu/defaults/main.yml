@@ -1,0 +1,19 @@
+---
+# Set your specific variables here.
+# DON'T declare environment or site related variables here.
+# They MUST be set in the inventory group_vars/
+
+apt_pkg:
+  - openssh-server
+  - nfs-common
+  - tree
+  - net-tools
+  - libnss-mdns
+
+ubuntu__swappiness: 60
+ubuntu__vfs_cache_pressure: 100
+
+timezone: Europe/Paris
+
+ubuntu__user_shell: bin/bash
+ubuntu__user_home: yes

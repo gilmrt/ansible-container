@@ -1,0 +1,20 @@
+---
+# Basic playbook to install the PFS
+# it MUST be usable in any environment just by using a different inventory
+#
+# Keep it as simple as possible:
+#  - split the profile logic in the profile_xxx roles
+#
+# You MUST be able to run it in production without breaking anything!
+# If you have some dangerous action, either:
+# - prompt the user for confirmation
+# - skip them unless a "I_know_what_i_am_doing_variable" variable is defined
+#   and equal to true
+
+- hosts: all
+  become: true
+  roles:
+    - ubuntu
+    - docker
+    - portainer
+    - duplicati

@@ -1,0 +1,7 @@
+---
+# Set your specific variables here.
+# DON'T declare environment or site related variables here.
+# They MUST be set in the inventory group_vars/
+
+# Local settings
+docker__path: /docker

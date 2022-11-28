@@ -1,0 +1,16 @@
+# docker:
+#   hosts:
+#     192.168.1.2:
+#       timezone: Europe/Paris
+#       ubuntu__swappiness: 60
+#       ubuntu__user_name: dockerbot
+#       ubuntu__user_group: dockerbot
+#       ubuntu__user_uid: ""
+#       ubuntu__user_gid: ""
+#       ubuntu__user_home: yes
+#       ubuntu__user_shell: bin/bash
+#       docker__path: /docker
+#       portainer__network: home
+#       duplicati__path: /mnt/backup/
+#       duplicati__passphrase: mysecurepassphrase
+#       duplicati__report: false

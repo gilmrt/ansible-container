@@ -1,0 +1,23 @@
+version: "2.1"
+
+services:
+  restore:
+    image: duplicati/duplicati:latest
+    container_name: restore
+    network_mode: host
+    command:
+      - duplicati-server
+      - --webservice-interface=any
+      - --webservice-allowed-hostnames=*
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ="{{ timezone }}"
+    volumes:
+      - restore_data:/data
+      - {{ docker__path }}:/source/docker
+    # ports:
+    #   - 8200:8200
+    restart: unless-stopped
+volumes: 
+  restore_data:

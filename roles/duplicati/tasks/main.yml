@@ -1,0 +1,47 @@
+---
+
+- name: Install docker-compose
+  apt:
+    name: docker-compose
+    update_cache: true
+
+- name: Create {{ docker__path }}/restore/ folder
+  file:
+    path: "{{ docker__path }}/restore"
+    state: directory
+    owner: "{{ ansible_env.SUDO_USER | default(ansible_env.USER) }}"
+    group: "{{ ansible_env.SUDO_USER | default(ansible_env.USER) }}"
+    mode: 0755
+
+- name: Copy Duplicati docker-compose.yml
+  template:
+    src: "docker/restore/docker-compose.yml.j2"
+    dest: "{{ docker__path }}/restore/docker-compose.yml"
+    owner: "{{ ansible_env.SUDO_USER | default(ansible_env.USER) }}"
+    group: "{{ ansible_env.SUDO_USER | default(ansible_env.USER) }}"
+    mode: 0755
+
+- name: Start Duplicati container
+  docker_compose:
+    project_src: "{{ docker__path }}/restore/"
+
+- name: Run Duplicati restore
+  shell:
+    cmd: "docker exec restore duplicati-cli restore {{ duplicati__path }} \"{{ duplicati__filename }}\" --passphrase=\"{{ duplicati__passphrase }}\" --ssh-accept-any-fingerprints --restore-permissions=true"
+  register: restore
+  failed_when: restore.rc == 50 or restore.rc == 100 or restore.rc == 200
+  
+- name: Duplicati report
+  debug: var=restore.stdout_lines
+  when: duplicati__report
+
+- name: Stop Duplicati container
+  docker_compose:
+    project_src: "{{ docker__path }}/restore/"
+    state: absent
+    remove_volumes: yes
+
+- name: Remove {{ docker__path }}/restore/ folder
+  file:
+    path: "{{ docker__path }}/restore"
+    state: absent

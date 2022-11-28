@@ -1,0 +1,31 @@
+---
+
+- name: Install docker-compose
+  apt:
+    name: docker-compose
+    update_cache: true
+
+- name: Creating {{ docker__path }}/portainer/ folder
+  file:
+    path: "{{ docker__path }}/portainer"
+    state: directory
+    owner: "{{ ansible_env.SUDO_USER | default(ansible_env.USER) }}"
+    group: "{{ ansible_env.SUDO_USER | default(ansible_env.USER) }}"
+    mode: 0755
+
+- name: Copy Portainer docker-compose.yml
+  template:
+    src: "docker/portainer/docker-compose.yml.j2"
+    dest: "{{ docker__path }}/portainer/docker-compose.yml"
+    owner: "{{ ansible_env.SUDO_USER | default(ansible_env.USER) }}"
+    group: "{{ ansible_env.SUDO_USER | default(ansible_env.USER) }}"
+    mode: 0755
+  notify: Start Portainer container
+  changed_when: true
+
+- name: Create dedicated network for container
+  docker_network:
+    name: "{{ portainer__network }}"
+    attachable: yes
+    driver: bridge
+  when: portainer__network is defined
